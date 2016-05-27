@@ -101,18 +101,113 @@ ostream& operator <<(ostream& outputStream, const BigInt& amount)
 
     return outputStream;
 }
-/*
-const BigInt operator *(const BigInt& amount1, const BigInt& amount2)
-{
-    int sumNumerator = amount1.numerator*amount2.numerator;
-    int sumDenominator = amount1.denominator*amount2.denominator;
-    int sumGCD = gcd(abs(sumNumerator),sumDenominator);
-    int finalNumerator = sumNumerator/sumGCD;
-    int finalDenominator = sumDenominator/sumGCD;
 
-    return BigInt(finalNumerator, finalDenominator);
+bool operator ==(const BigInt& amount1, const BigInt& amount2)
+{
+    if(amount1.length != amount2.length || amount1.sign != amount2.sign)
+        return 0;
+    else
+    {
+        int i;
+        for(i = 0; i<amount1.length; i++)
+            if(amount1.digit[i] != amount2.digit[i])
+                return 0;
+        return 1;
+    }
 }
 
+bool operator >(const BigInt& amount1, const BigInt& amount2)
+{
+    if(amount1 == amount2)
+        return 0;
+    else if(amount1.sign < amount2.sign)
+    {
+        if(amount1.length > amount2.length)
+            return 1;
+        if(amount1.length == amount2.length)
+        {
+            int i;
+            for(i = 0; i<amount1.length; i++)
+                if(amount1.digit[i] > amount2.digit[i])
+                    return 1;
+            return 0;
+        }
+    }
+    else
+    {
+        if(amount1.length < amount2.length)
+            return 1;
+        if(amount1.length == amount2.length)
+        {
+            int i;
+            for(i = 0; i<amount1.length; i++)
+                if(amount1.digit[i] < amount2.digit[i])
+                    return 1;
+            return 0;
+        }
+    }
+}
+
+bool operator <(const BigInt& amount1, const BigInt& amount2)
+{
+    return (amount2 > amount1);
+}
+
+bool operator >=(const BigInt& amount1, const BigInt& amount2)
+{
+    return ((amount1 > amount2) && (amount1 == amount2));
+}
+
+bool operator <=(const BigInt& amount1, const BigInt& amount2)
+{
+    return ((amount2 > amount1) && (amount1 == amount2));
+}
+
+
+const BigInt operator *(const BigInt& amount1, const BigInt& amount2)
+{
+    int i,j,k;
+    int *temp = new int[amount1.length + amount2.length];
+    int *sum = new int[amount1.length + amount2.length];
+    for(i = amount1.length-1; i >= 0; i--)
+    {
+        int carry(0);
+        for(j = amount2.length-1; j >= 0; j--)
+        {
+            temp[i+j+1] = amount1.digit[i]*amount2.digit[j] + carry;
+            //cout<<temp[i+j+1]<<"\n";
+            carry = temp[i+j+1] / 10;
+            temp[i+j+1] %= 10;
+            //cout<<temp[i+j+1]<<"*\n";
+        }
+        temp[i+j+1] = carry;
+        //cout<<temp[i+j+1]<<"*\n";
+        carry = 0;
+        //cout<<amount1.length+amount2.length+i-2<<"***\n";
+        for(k = amount1.length+amount2.length+i-2; k > i; k--)
+        {
+            sum[k] = temp[k] + sum[k] + carry;
+            //cout<<sum[k]<<" ";
+            carry = sum[k]/10;
+            sum[k] %= 10;
+            //cout<<carry<<"\n";
+        }
+        sum[k] = temp[k] + carry;
+        //cout<<sum[k]<<"\n";
+        carry = 0;
+    }
+    char *str = new char[amount1.length+1];
+    for(i = 0; i < amount1.length+amount2.length; i++)
+        str[i] = sum[i] + '0';
+    str[i] = '\0';
+    
+    if(amount1.sign == amount2.sign)
+        return BigInt(str);
+    else
+        return -BigInt(str);
+}
+
+/*
 const BigInt operator /(const BigInt& amount1, const BigInt& amount2)
 {
     int sumNumerator = amount1.numerator*amount2.denominator;

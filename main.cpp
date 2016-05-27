@@ -110,5 +110,8 @@ int main(void)
     cout << bb << " - " << cc << " = " << bb - cc << endl;
     cout << bb << " - " << dd << " = " << bb - dd << endl;
     cout << cc << " - " << dd << " = " << cc - dd << endl;
+    
+    BigInt ff = 9876, ee = -54;
+    cout << ee << " * " << ff << " = " << ee * ff << endl;
 }
 /**/

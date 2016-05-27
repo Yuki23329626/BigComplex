@@ -30,6 +30,11 @@ public:
     friend const BigInt operator *(const BigInt& amount1, const BigInt& amount2);
     friend const BigInt operator /(const BigInt& amount1, const BigInt& amount2);
     friend const BigInt operator -(const BigInt& amount);
+    friend bool operator ==(const BigInt& amount1, const BigInt& amount2);
+    friend bool operator >(const BigInt& amount1, const BigInt& amount2);
+    friend bool operator <(const BigInt& amount1, const BigInt& amount2);
+    friend bool operator >=(const BigInt& amount1, const BigInt& amount2);
+    friend bool operator <=(const BigInt& amount1, const BigInt& amount2);
     
     BigInt& operator =(const BigInt& rightValue);
 
