@@ -24,7 +24,7 @@ int main(void)
     cin >> input1;
     cout << "input2: ";
     cin >> input2;
-    cout << endl;*/
+    cout << endl;*//*
 
     cout << "input1 = " << input1 << endl;
     input1.normalize();
@@ -64,7 +64,7 @@ int main(void)
     cout << "input1[0] = " << input1[0] << endl;
     cout << "input1[1] = " << input1[1] << endl;
     cout << "input2[0] = " << input2[0] << endl;
-    cout << "input2[1] = " << input2[1] << endl<<endl<<endl;
+    cout << "input2[1] = " << input2[1] << endl<<endl<<endl;/**/
 
     BigInt a("314159265358979323846264338327950288419716939937510"), c(a);
     BigInt *b = new BigInt(1123581321);
@@ -98,7 +98,7 @@ int main(void)
 
     BigInt aa, bb, cc, dd;
     aa =  97, bb = -97, cc = "197", dd = "-107";
-    cout << aa << " + " << bb << " = " << aa + bb << endl;
+    cout << aa << " + " << bb.abso() << " = " << aa + bb.abso() << endl;
     cout << aa << " + " << cc << " = " << aa + cc << endl;
     cout << aa << " + " << dd << " = " << aa + dd << endl;
     cout << bb << " + " << cc << " = " << bb + cc << endl;

@@ -74,6 +74,13 @@ BigInt::~BigInt()
     delete [] digit;
 }
 
+const BigInt BigInt::abso() const
+{
+    if(sign == 0)
+        return *this;
+    return - *this;
+}
+
 int BigInt::getLength() const
 {
     return length;

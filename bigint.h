@@ -19,6 +19,7 @@ public:
     BigInt(const BigInt& iniObj);
 
     // accessor function
+    const BigInt abso() const;  // get absolute number of the bigInt
     int getLength() const;
     bool getSign() const;
 
@@ -26,7 +27,10 @@ public:
     friend ostream& operator <<(ostream& outputStream, const BigInt& amount);
     friend const BigInt operator +(const BigInt& amount1, const BigInt& amount2);
     friend const BigInt operator -(const BigInt& amount1, const BigInt& amount2);
+    friend const BigInt operator *(const BigInt& amount1, const BigInt& amount2);
+    friend const BigInt operator /(const BigInt& amount1, const BigInt& amount2);
     friend const BigInt operator -(const BigInt& amount);
+    
     BigInt& operator =(const BigInt& rightValue);
 
     // destructor
