@@ -22,6 +22,7 @@ ostream& operator <<(ostream& outputstream, const Complex& num)
 
 const Complex operator +(const Complex& firstObj, const Complex& secondObj)
 {
+    cout<<firstObj.realPart<<" + "<<secondObj.realPart<<" = "<<firstObj.realPart + secondObj.realPart<<endl;;
      return Complex(
          firstObj.realPart + secondObj.realPart,
          firstObj.imagPart + secondObj.imagPart

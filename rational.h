@@ -41,7 +41,7 @@ private:
     BigInt denominator;
 };
 
-int gcd( int a, int b );
+BigInt gcd( BigInt a, BigInt b );
 // input must be positive integer
 
 const Rational operator +(const Rational& amount1, const Rational& amount2);

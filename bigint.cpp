@@ -74,6 +74,18 @@ BigInt::~BigInt()
     delete [] digit;
 }
 
+const BigInt BigInt::factorial() const
+{
+    if(*this > 0){
+        BigInt sum(1), i(1);
+        for( ;i <= *this; i = i+1)
+            sum = sum * i, cout<<i<<"*\n";
+        return sum;
+    }
+    else 
+        return BigInt(0);
+}
+
 const BigInt BigInt::abso() const
 {
     if(sign == 0)
@@ -118,18 +130,27 @@ bool operator ==(const BigInt& amount1, const BigInt& amount2)
 
 bool operator >(const BigInt& amount1, const BigInt& amount2)
 {
-    if(amount1 == amount2)
+    if(amount1 == amount2 || amount1.sign > amount2.sign)
         return 0;
     else if(amount1.sign < amount2.sign)
+        return 1;
+    else if(amount1.sign == 0)
     {
         if(amount1.length > amount2.length)
             return 1;
-        if(amount1.length == amount2.length)
+        else if(amount1.length < amount2.length)
+            return 0;
+        else
         {
             int i;
-            for(i = 0; i<amount1.length; i++)
+            for(i = 0; i<amount1.length; i++){
+                if(amount1.digit[i] == amount2.digit[i])
+                    continue;
                 if(amount1.digit[i] > amount2.digit[i])
                     return 1;
+                else
+                    break;
+            }
             return 0;
         }
     }
@@ -137,12 +158,19 @@ bool operator >(const BigInt& amount1, const BigInt& amount2)
     {
         if(amount1.length < amount2.length)
             return 1;
-        if(amount1.length == amount2.length)
+        else if(amount1.length > amount2.length)
+            return 0;
+        else
         {
             int i;
-            for(i = 0; i<amount1.length; i++)
+            for(i = 0; i<amount1.length; i++){
+                if(amount1.digit[i] == amount2.digit[i])
+                    continue;
                 if(amount1.digit[i] < amount2.digit[i])
                     return 1;
+                else
+                    break;
+            }
             return 0;
         }
     }
@@ -155,20 +183,34 @@ bool operator <(const BigInt& amount1, const BigInt& amount2)
 
 bool operator >=(const BigInt& amount1, const BigInt& amount2)
 {
-    return ((amount1 > amount2) && (amount1 == amount2));
+    return ((amount1 > amount2) || (amount1 == amount2));
 }
 
 bool operator <=(const BigInt& amount1, const BigInt& amount2)
 {
-    return ((amount2 > amount1) && (amount1 == amount2));
+    return ((amount2 > amount1) || (amount1 == amount2));
 }
 
+const BigInt operator !(const BigInt& amount)
+{
+    BigInt sum(1);
+    BigInt i;
+    for(i = 1; i <= amount; i = i+1)
+    {
+        sum = sum * i;
+    }
+    return sum;
+}
 
 const BigInt operator *(const BigInt& amount1, const BigInt& amount2)
 {
     int i,j,k;
     int *temp = new int[amount1.length + amount2.length];
     int *sum = new int[amount1.length + amount2.length];
+    
+    for(i = 0 ;i < amount1.length+amount2.length; i++) // initialize
+        temp[i] = sum[i] = 0;
+
     for(i = amount1.length-1; i >= 0; i--)
     {
         int carry(0);

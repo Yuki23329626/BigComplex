@@ -37,6 +37,8 @@ public:
     friend bool operator <=(const BigInt& amount1, const BigInt& amount2);
     
     BigInt& operator =(const BigInt& rightValue);
+    
+    const BigInt factorial() const;
 
     // destructor
     ~BigInt();
