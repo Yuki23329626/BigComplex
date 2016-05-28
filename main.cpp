@@ -7,24 +7,24 @@
 #include "rational.h"
 
 using namespace std;
-/*
+/**/
 int main()
 {
     Complex t1(Rational(1, 2), Rational(-3, 4));
-    Complex t2(Rational(5, 6), Rational(7, -8));
-    cout << t1 << " / " << t2 << t1 / t2 << endl;
+    Complex t2(Rational(5, -6), Rational(7, 8));
+    
+    cout << "(" << t1 << ")" << "+" << "(" << t2 << ")" << " = " << t1 + t2 << endl;
+    cout << "(" << t1 << ")" << "-" << "(" << t2 << ")" << " = " << t1 - t2 << endl;
+    cout << "(" << t1 << ")" << "*" << "(" << t2 << ")" << " = " << t1 * t2 << endl;
+    cout << "(" << t1 << ")" << "/" << "(" << t2 << ")" << " = " << t1 / t2 << endl;
+    
     return 0;
 }
-*/
+/*
 
 int main(void)
 {
     Rational input1(13,17), input2(17,13);
-    /*cout << "input1: ";
-    cin >> input1;
-    cout << "input2: ";
-    cin >> input2;
-    cout << endl;*//*
 
     cout << "input1 = " << input1 << endl;
     input1.normalize();
@@ -64,8 +64,9 @@ int main(void)
     cout << "input1[0] = " << input1[0] << endl;
     cout << "input1[1] = " << input1[1] << endl;
     cout << "input2[0] = " << input2[0] << endl;
-    cout << "input2[1] = " << input2[1] << endl<<endl<<endl;/**/
+    cout << "input2[1] = " << input2[1] << endl<<endl<<endl;
 
+    
     BigInt a("314159265358979323846264338327950288419716939937510"), c(a);
     BigInt *b = new BigInt(1123581321);
 
@@ -113,5 +114,4 @@ int main(void)
     
     BigInt ff = 9876, ee = -54;
     cout << ee << " * " << ff << " = " << ee * ff << endl;
-}
-/**/
+}/**/

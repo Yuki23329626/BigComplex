@@ -9,10 +9,19 @@ using namespace std;
 class Complex
 {
 public:
+    // constructor
     Complex();
     Complex(Rational realValue, Rational imagValue);
+    
+    // output
     friend ostream& operator <<(ostream& output, const Complex& num);
+    
+    // operator overloading for Arithmetic
+    friend const Complex operator +(const Complex& firstObj, const Complex& secondObj);
+    friend const Complex operator -(const Complex& firstObj, const Complex& secondObj);
+    friend const Complex operator *(const Complex& firstObj, const Complex& secondObj);
     friend const Complex operator /(const Complex& firstObj, const Complex& secondObj);
+    
 private: 
     Rational realPart;
     Rational imagPart;
