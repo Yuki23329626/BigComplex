@@ -11,17 +11,18 @@ class Rational:public BigInt
 {
 public:
     // constructor
-    Rational(int numeratorValue, int denominatorValue);
-    Rational(int numeratorValue);
+    Rational(BigInt numeratorValue, BigInt denominatorValue);
+    Rational(BigInt numeratorValue);
     Rational();
 
     // accessor function
-    int getNumerator() const;
-    int getDenominator() const;
+    BigInt getNumerator() const;
+    BigInt getDenominator() const;
 
     // operator overloading
     friend ostream& operator <<(ostream& outputStream, const Rational& amount);
-    friend istream& operator >>(istream& inputStream, Rational& amount);
+   
+    //friend istream& operator >>(istream& inputStream, Rational& amount);
     friend const Rational operator *(const Rational& amount1, const Rational& amount2);
     friend const Rational operator /(const Rational& amount1, const Rational& amount2);
     friend bool operator ==(const Rational& amount1, const Rational& amount2);
@@ -29,14 +30,15 @@ public:
     bool operator <=(const Rational& amount2) const;
     bool operator >(const Rational& amount2) const;
     bool operator >=(const Rational& amount2) const;
-    int& operator [](int index);
+    BigInt& operator [](int index);
     // index must be positive integer
 
     void normalize();
     // turn the fraction into the most simple fraction
+
 private:
-    int numerator;
-    int denominator;
+    BigInt numerator;
+    BigInt denominator;
 };
 
 int gcd( int a, int b );

@@ -14,43 +14,47 @@ using namespace std;
 
 void Rational::normalize() //normalize the input data
 {
-    if(denominator < 0)
+    /*if(denominator < 0)
         numerator *= -1, denominator *= -1;
-    int sumGCD = gcd(abs(numerator),denominator);
+    BigInt sumGCD = gcd(numerator.abso(),denominator);
     numerator = numerator/sumGCD;
-    denominator = denominator/sumGCD;
+    denominator = denominator/sumGCD;*/
 }
 
-Rational::Rational(int numeratorValue, int denominatorValue)
+
+Rational::Rational(BigInt numeratorValue, BigInt denominatorValue)
     : numerator(numeratorValue),denominator(denominatorValue)
 {
-    normalize();
+    ;//normalize();
 }
 
-Rational::Rational(int numeratorValue)
+Rational::Rational(BigInt numeratorValue)
     : numerator(numeratorValue),denominator(1)
 {
-    normalize();
+    ;//normalize();
 }
 
 Rational::Rational()
     : numerator(0),denominator(1)
 {}
 
-int Rational::getNumerator() const
+
+BigInt Rational::getNumerator() const
 {
     return numerator;
 }
 
-int Rational::getDenominator() const
+BigInt Rational::getDenominator() const
 {
     return denominator;
 }
 
+
 ostream& operator <<(ostream& outputStream, const Rational& amount)
 {
-    int absNumerator = abs(amount.numerator);
-    int absDenominator = abs(amount.denominator);
+    BigInt absNumerator = amount.numerator.abso();
+    BigInt absDenominator = amount.denominator.abso();
+    
     if(amount.numerator < 0 || amount.denominator < 0)
         outputStream << "-";
     outputStream << absNumerator;
@@ -62,6 +66,7 @@ ostream& operator <<(ostream& outputStream, const Rational& amount)
     return outputStream;
 }
 
+/*
 istream& operator >>(istream& inputStream, Rational& amount)
 {
     string inputData;
@@ -83,39 +88,40 @@ istream& operator >>(istream& inputStream, Rational& amount)
     }
     return inputStream;
 }
+*/
 
-int gcd( int a, int b )
+BigInt gcd( BigInt a, BigInt b )
 {
-    int temp;
+    /*BigInt temp;
     while ( a != 0 )
     {
         temp = a;
         a = b%a;
         b = temp;
-    }
-    return b;
+    }*/
+    return BigInt(1);
 }
 
 const Rational operator +(const Rational& amount1, const Rational& amount2)
 {
-    int sumNumerator = amount1.getNumerator()*amount2.getDenominator()+
+    BigInt sumNumerator = amount1.getNumerator()*amount2.getDenominator()+
                        amount2.getNumerator()*amount1.getDenominator();
-    int sumDenominator = amount1.getDenominator()*amount2.getDenominator();
-    int sumGCD = gcd(abs(sumNumerator),sumDenominator);
-    int finalNumerator = sumNumerator/sumGCD;
-    int finalDenominator = sumDenominator/sumGCD;
+    BigInt sumDenominator = amount1.getDenominator()*amount2.getDenominator();
+    BigInt sumGCD = gcd(sumNumerator.abso(),sumDenominator);
+    BigInt finalNumerator = sumNumerator/sumGCD;
+    BigInt finalDenominator = sumDenominator/sumGCD;
 
     return Rational(finalNumerator, finalDenominator);
 }
 
 const Rational operator -(const Rational& amount1, const Rational& amount2)
 {
-    int sumNumerator = amount1.getNumerator()*amount2.getDenominator()-
+    BigInt sumNumerator = amount1.getNumerator()*amount2.getDenominator()-
                        amount2.getNumerator()*amount1.getDenominator();
-    int sumDenominator = amount1.getDenominator()*amount2.getDenominator();
-    int sumGCD = gcd(abs(sumNumerator),sumDenominator);
-    int finalNumerator = sumNumerator/sumGCD;
-    int finalDenominator = sumDenominator/sumGCD;
+    BigInt sumDenominator = amount1.getDenominator()*amount2.getDenominator();
+    BigInt sumGCD = gcd(sumNumerator.abso(),sumDenominator);
+    BigInt finalNumerator = sumNumerator/sumGCD;
+    BigInt finalDenominator = sumDenominator/sumGCD;
 
     return Rational(finalNumerator, finalDenominator);
 }
@@ -127,22 +133,27 @@ const Rational operator -(const Rational& amount)
 
 const Rational operator *(const Rational& amount1, const Rational& amount2)
 {
-    int sumNumerator = amount1.numerator*amount2.numerator;
-    int sumDenominator = amount1.denominator*amount2.denominator;
-    int sumGCD = gcd(abs(sumNumerator),sumDenominator);
-    int finalNumerator = sumNumerator/sumGCD;
-    int finalDenominator = sumDenominator/sumGCD;
+    BigInt sumNumerator = amount1.numerator*amount2.numerator;
+    BigInt sumDenominator = amount1.denominator*amount2.denominator;
+    BigInt sumGCD = gcd(sumNumerator.abso(),sumDenominator);
+    BigInt finalNumerator = sumNumerator/sumGCD;
+    BigInt finalDenominator = sumDenominator/sumGCD;
 
     return Rational(finalNumerator, finalDenominator);
 }
 
 const Rational operator /(const Rational& amount1, const Rational& amount2)
 {
-    int sumNumerator = amount1.numerator*amount2.denominator;
-    int sumDenominator = amount1.denominator*amount2.numerator;
-    int sumGCD = gcd(abs(sumNumerator),sumDenominator);
-    int finalNumerator = sumNumerator/sumGCD;
-    int finalDenominator = sumDenominator/sumGCD;
+    if(amount2 == 0)
+    {
+        cout<<"Divisor cannot be zero.\n";
+        return Rational();
+    }
+    BigInt sumNumerator = amount1.numerator*amount2.denominator;
+    BigInt sumDenominator = amount1.denominator*amount2.numerator;
+    BigInt sumGCD = gcd(sumNumerator.abso(),sumDenominator);
+    BigInt finalNumerator = sumNumerator/sumGCD;
+    BigInt finalDenominator = sumDenominator/sumGCD;
 
     return Rational(finalNumerator, finalDenominator);
 }
@@ -173,7 +184,7 @@ bool Rational::operator >=(const Rational& amount2) const
     return (numerator*amount2.getDenominator() >= amount2.getNumerator()*denominator);
 }
 
-int& Rational::operator [](int index)
+BigInt& Rational::operator [](int index)
 {
     if(index == 0)
         return numerator;
@@ -185,3 +196,4 @@ int& Rational::operator [](int index)
         exit(1);
     }
 }
+/**/

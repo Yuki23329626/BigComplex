@@ -197,9 +197,16 @@ const BigInt operator *(const BigInt& amount1, const BigInt& amount2)
         carry = 0;
     }
     char *str = new char[amount1.length+1];
-    for(i = 0; i < amount1.length+amount2.length; i++)
-        str[i] = sum[i] + '0';
-    str[i] = '\0';
+    if(sum[0] > 0){
+        for(i = 0; i < amount1.length+amount2.length; i++)
+            str[i] = sum[i] + '0';
+        str[i] = '\0';
+    }
+    else{
+        for(i = 1; i < amount1.length+amount2.length; i++)
+            str[i-1] = sum[i] + '0';
+        str[i-1] = '\0';
+    }
     
     if(amount1.sign == amount2.sign)
         return BigInt(str);
@@ -207,18 +214,19 @@ const BigInt operator *(const BigInt& amount1, const BigInt& amount2)
         return -BigInt(str);
 }
 
-/*
+
 const BigInt operator /(const BigInt& amount1, const BigInt& amount2)
 {
+/*
     int sumNumerator = amount1.numerator*amount2.denominator;
     int sumDenominator = amount1.denominator*amount2.numerator;
     int sumGCD = gcd(abs(sumNumerator),sumDenominator);
     int finalNumerator = sumNumerator/sumGCD;
     int finalDenominator = sumDenominator/sumGCD;
-
-    return BigInt(finalNumerator, finalDenominator);
-}
 */
+    return amount1;
+}
+
 
 const BigInt operator +(const BigInt& amount1, const BigInt& amount2)
 {
