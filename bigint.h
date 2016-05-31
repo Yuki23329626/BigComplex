@@ -19,9 +19,10 @@ public:
     BigInt(const BigInt& iniObj);
 
     // accessor function
-    const BigInt abso() const;  // get absolute number of the bigInt
-    int getLength() const;
-    bool getSign() const;
+    const BigInt abso() const;  // get absolute value of the bigInt object
+    int getLength() const;  // get length of the bigInt object (without the sign)
+    bool getSign() const;  // get the sign of the bigInt object
+    const BigInt rightShift() const;
 
     // operator overloading
     friend ostream& operator <<(ostream& outputStream, const BigInt& amount);
@@ -29,7 +30,8 @@ public:
     friend const BigInt operator -(const BigInt& amount1, const BigInt& amount2);
     friend const BigInt operator *(const BigInt& amount1, const BigInt& amount2);
     friend const BigInt operator /(const BigInt& amount1, const BigInt& amount2);
-    friend const BigInt operator -(const BigInt& amount);
+    friend const BigInt operator %(const BigInt& amount1, const BigInt& amount2);
+    friend const BigInt operator -(const BigInt& amount);  // negation
     friend bool operator ==(const BigInt& amount1, const BigInt& amount2);
     friend bool operator >(const BigInt& amount1, const BigInt& amount2);
     friend bool operator <(const BigInt& amount1, const BigInt& amount2);
@@ -38,14 +40,14 @@ public:
     
     BigInt& operator =(const BigInt& rightValue);
     
-    const BigInt factorial() const;
+    const BigInt factorial() const;  // get the factorial n! of a non-negative bigInt n
 
     // destructor
     ~BigInt();
 private:
     int *digit;
     int length;
-    bool sign;
+    bool sign;  // sign == 0 ? posetive:negative
 };
 
 //#endif //BIGINT_H

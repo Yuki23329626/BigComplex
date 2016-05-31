@@ -213,31 +213,19 @@ const BigInt operator *(const BigInt& amount1, const BigInt& amount2)
 
     for(i = amount1.length-1; i >= 0; i--)
     {
-        int carry(0);
         for(j = amount2.length-1; j >= 0; j--)
+            temp[i+j+1] = amount1.digit[i]*amount2.digit[j];
+            
+        int carry(0);
+        for(k = amount1.length+amount2.length-1 ; k >= 0 ;k--)
         {
-            temp[i+j+1] = amount1.digit[i]*amount2.digit[j] + carry;
-            //cout<<temp[i+j+1]<<"\n";
-            carry = temp[i+j+1] / 10;
-            temp[i+j+1] %= 10;
-            //cout<<temp[i+j+1]<<"*\n";
-        }
-        temp[i+j+1] = carry;
-        //cout<<temp[i+j+1]<<"*\n";
-        carry = 0;
-        //cout<<amount1.length+amount2.length+i-2<<"***\n";
-        for(k = amount1.length+amount2.length+i-2; k > i; k--)
-        {
-            sum[k] = temp[k] + sum[k] + carry;
-            //cout<<sum[k]<<" ";
-            carry = sum[k]/10;
+            sum[k] = sum[k] + temp[k] + carry;
+            temp[k] = 0;
+            carry = sum[k] / 10;
             sum[k] %= 10;
-            //cout<<carry<<"\n";
         }
-        sum[k] = temp[k] + carry;
-        //cout<<sum[k]<<"\n";
-        carry = 0;
     }
+    
     char *str = new char[amount1.length+1];
     if(sum[0] > 0){
         for(i = 0; i < amount1.length+amount2.length; i++)
@@ -256,19 +244,47 @@ const BigInt operator *(const BigInt& amount1, const BigInt& amount2)
         return -BigInt(str);
 }
 
+const BigInt BigInt::rightShift() const
+{
+    int i;
+    char *str = new char[this->length+1];
+    for(i = 0; i < this->length - 1; i++)
+        str[i] = this->digit[i] + '0';
+    str[i] = '\0';
+    return BigInt(str);
+}
 
 const BigInt operator /(const BigInt& amount1, const BigInt& amount2)
 {
-/*
-    int sumNumerator = amount1.numerator*amount2.denominator;
-    int sumDenominator = amount1.denominator*amount2.numerator;
-    int sumGCD = gcd(abs(sumNumerator),sumDenominator);
-    int finalNumerator = sumNumerator/sumGCD;
-    int finalDenominator = sumDenominator/sumGCD;
-*/
-    return amount1;
+    // magn = magnificent;
+    BigInt count(0), magn(1), lValue(amount1.abso()), rValue(amount2.abso());
+    
+    if(lValue < rValue)
+        return BigInt(0);
+    
+    while(lValue >= rValue*magn)
+        magn = magn*10;
+    magn = magn.rightShift(); // magn = magn/10;
+    
+    while(lValue >= rValue){
+        while(lValue >= rValue*magn)
+        {
+            count = count + magn;
+            lValue = lValue - rValue*magn;
+        }
+        magn = magn.rightShift();
+    }
+    
+    if(amount1.getSign() != amount2.getSign())
+        return -count;
+    else
+        return count;
 }
 
+const BigInt operator %(const BigInt& amount1, const BigInt& amount2)
+{
+    return amount1 - amount2*(amount1/amount2);
+}
 
 const BigInt operator +(const BigInt& amount1, const BigInt& amount2)
 {

@@ -16,13 +16,15 @@ Complex::Complex(Rational realValue, Rational imagValue)
 
 ostream& operator <<(ostream& outputstream, const Complex& num)
 {
-    outputstream << num.realPart << " + " << num.imagPart << "i";
+    if(num.imagPart.getNumerator() >= 0)
+        outputstream << num.realPart << " + " << num.imagPart << "i";
+    else
+        outputstream << num.realPart << " - " << num.imagPart*Rational(-1) << "i";
     return outputstream;
 }
 
 const Complex operator +(const Complex& firstObj, const Complex& secondObj)
 {
-    cout<<firstObj.realPart<<" + "<<secondObj.realPart<<" = "<<firstObj.realPart + secondObj.realPart<<endl;;
      return Complex(
          firstObj.realPart + secondObj.realPart,
          firstObj.imagPart + secondObj.imagPart

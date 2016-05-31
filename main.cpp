@@ -47,22 +47,13 @@ int main(void)
 
 int main(void)
 {
-    BigInt a(13), b(17);
-    cout << "a > 13 ";
-    if(a>13) cout<<"YES\n";
-    else cout<<"NO\n";
-    cout << "a < 13 ";
-    if(a<13) cout<<"YES\n";
-    else cout<<"NO\n";
-    cout << "a == 13 ";
-    if(a==13) cout<<"YES\n";
-    else cout<<"NO\n";
-    cout << "a >= 13 ";
-    if(a>=13) cout<<"YES\n";
-    else cout<<"NO\n";
-    cout << "a <= 13 ";
-    if(a<=13) cout<<"YES\n";
-    else cout<<"NO\n";
+    Complex a(Rational(12,34),Rational(56,78)), b(Rational(98,76),Rational(54,32));
+    cout<<"a = "<<a<<", b = "<<b<<endl;
+    
+    cout<<"a + b = "<<a+b<<endl;
+    cout<<"a - b = "<<a-b<<endl;
+    cout<<"a * b = "<<a*b<<endl;
+    cout<<"a / b = "<<a/b<<endl;
     
     return 0;
 }/**/

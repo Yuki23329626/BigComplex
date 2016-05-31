@@ -14,24 +14,24 @@ using namespace std;
 
 void Rational::normalize() //normalize the input data
 {
-    /*if(denominator < 0)
-        numerator *= -1, denominator *= -1;
+    if(denominator < 0)
+        numerator = numerator * -1, denominator = denominator * -1;
     BigInt sumGCD = gcd(numerator.abso(),denominator);
     numerator = numerator/sumGCD;
-    denominator = denominator/sumGCD;*/
+    denominator = denominator/sumGCD;
 }
 
 
 Rational::Rational(BigInt numeratorValue, BigInt denominatorValue)
     : numerator(numeratorValue),denominator(denominatorValue)
 {
-    ;//normalize();
+    normalize();
 }
 
 Rational::Rational(BigInt numeratorValue)
     : numerator(numeratorValue),denominator(1)
 {
-    ;//normalize();
+    normalize();
 }
 
 Rational::Rational()
@@ -54,7 +54,7 @@ ostream& operator <<(ostream& outputStream, const Rational& amount)
 {
     BigInt absNumerator = amount.numerator.abso();
     BigInt absDenominator = amount.denominator.abso();
-    
+
     if(amount.numerator < 0 || amount.denominator < 0)
         outputStream << "-";
     outputStream << absNumerator;
@@ -90,16 +90,20 @@ istream& operator >>(istream& inputStream, Rational& amount)
 }
 */
 
-BigInt gcd( BigInt a, BigInt b )
+const BigInt gcd(const BigInt amount1, const BigInt amount2 )
 {
-    /*BigInt temp;
-    while ( a != 0 )
+    BigInt temp, lValue(amount1.abso()), rValue(amount2.abso());
+    while (!(lValue == 0))
     {
-        temp = a;
-        a = b%a;
-        b = temp;
-    }*/
-    return BigInt(1);
+        temp = lValue;
+        lValue = rValue % lValue;
+        rValue = temp;
+    }
+
+    if(amount1.getSign() != amount2.getSign())
+        return -BigInt(rValue);
+    else
+        return BigInt(rValue);
 }
 
 const Rational operator +(const Rational& amount1, const Rational& amount2)
@@ -144,10 +148,10 @@ const Rational operator *(const Rational& amount1, const Rational& amount2)
 
 const Rational operator /(const Rational& amount1, const Rational& amount2)
 {
-    if(amount2 == 0)
+    if(amount2 == Rational(0))
     {
         cout<<"Divisor cannot be zero.\n";
-        return Rational();
+        exit(1);
     }
     BigInt sumNumerator = amount1.numerator*amount2.denominator;
     BigInt sumDenominator = amount1.denominator*amount2.numerator;
@@ -160,8 +164,8 @@ const Rational operator /(const Rational& amount1, const Rational& amount2)
 
 bool operator ==(const Rational& amount1, const Rational& amount2)
 {
-    return (amount1.getNumerator()*amount2.getDenominator() ==
-            amount2.getNumerator()*amount1.getDenominator());
+    return (amount1.getNumerator() == amount2.getNumerator() &&
+            amount1.getDenominator() == amount2.getDenominator());
 }
 
 bool Rational::operator <(const Rational& amount2) const
