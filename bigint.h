@@ -39,8 +39,6 @@ public:
     friend bool operator <=(const BigInt& amount1, const BigInt& amount2);
     
     BigInt& operator =(const BigInt& rightValue);
-    
-    const BigInt factorial() const;  // get the factorial n! of a non-negative bigInt n
 
     // destructor
     ~BigInt();
@@ -49,5 +47,7 @@ private:
     int length;
     bool sign;  // sign == 0 ? posetive:negative
 };
+
+const BigInt factorial(BigInt bigNum);  // get the factorial n! of a non-negative bigInt n
 
 //#endif //BIGINT_H

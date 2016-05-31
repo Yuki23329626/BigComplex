@@ -74,16 +74,16 @@ BigInt::~BigInt()
     delete [] digit;
 }
 
-const BigInt BigInt::factorial() const
+const BigInt factorial(BigInt bigNum)
 {
-    if(*this > 0){
+    if(bigNum > 0){
         BigInt sum(1), i(1);
-        for( ;i <= *this; i = i+1)
-            sum = sum * i, cout<<i<<"*\n";
+        for( ;i <= bigNum; i = i+1)
+            sum = sum * i;
         return sum;
     }
     else 
-        return BigInt(0);
+        return BigInt(1);
 }
 
 const BigInt BigInt::abso() const

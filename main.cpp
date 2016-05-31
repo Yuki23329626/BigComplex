@@ -4,7 +4,6 @@
 #include <cmath>
 #include <ctime>
 #include "complex.h"
-#include "rational.h"
 
 using namespace std;
 /*
@@ -54,6 +53,9 @@ int main(void)
     cout<<"a - b = "<<a-b<<endl;
     cout<<"a * b = "<<a*b<<endl;
     cout<<"a / b = "<<a/b<<endl;
+    
+    BigInt c(30);
+    cout<<"30! = "<<factorial(c)<<endl;
     
     return 0;
 }/**/
