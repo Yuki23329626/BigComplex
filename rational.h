@@ -18,6 +18,7 @@ public:
     // accessor function
     BigInt getNumerator() const;
     BigInt getDenominator() const;
+    const bool getSign() const;
 
     // operator overloading
     friend ostream& operator <<(ostream& outputStream, const Rational& amount);

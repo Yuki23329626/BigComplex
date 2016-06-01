@@ -204,6 +204,7 @@ const BigInt operator !(const BigInt& amount)
 
 const BigInt operator *(const BigInt& amount1, const BigInt& amount2)
 {
+    if(amount1==0 || amount2==0) return BigInt();
     int i,j,k;
     int *temp = new int[amount1.length + amount2.length];
     int *sum = new int[amount1.length + amount2.length];
@@ -257,28 +258,28 @@ const BigInt BigInt::rightShift() const
 const BigInt operator /(const BigInt& amount1, const BigInt& amount2)
 {
     // magn = magnificent;
-    BigInt count(0), magn(1), lValue(amount1.abso()), rValue(amount2.abso());
+    BigInt quotient(0), magn(1), dividend(amount1.abso()), divisor(amount2.abso());
     
-    if(lValue < rValue)
+    if(dividend < divisor)
         return BigInt(0);
     
-    while(lValue >= rValue*magn)
+    while(dividend >= divisor*magn)
         magn = magn*10;
     magn = magn.rightShift(); // magn = magn/10;
     
-    while(lValue >= rValue){
-        while(lValue >= rValue*magn)
+    while(dividend >= divisor){
+        while(dividend >= divisor*magn)
         {
-            count = count + magn;
-            lValue = lValue - rValue*magn;
+            quotient = quotient + magn;
+            dividend = dividend - divisor*magn;
         }
         magn = magn.rightShift();
     }
     
     if(amount1.getSign() != amount2.getSign())
-        return -count;
+        return -quotient;
     else
-        return count;
+        return quotient;
 }
 
 const BigInt operator %(const BigInt& amount1, const BigInt& amount2)
