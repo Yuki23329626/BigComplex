@@ -1,22 +1,27 @@
+//This is the implementation for the class Rational.
 #include <iostream>
 #include <cstdlib>
 #include <string>
 #include <cmath>
 #include <ctime>
 #include "rational.h"
+using namespace std;
+using namespace stdBigInt;
 
 /*
-    Name: 沈濃翔
-    Student ID: 403410016
+    Team: 5
+    Name: 張光緯
+    Student ID: 403410017
     Dept: 資工二
 */
-using namespace std;
+
+namespace stdRational{
 
 void Rational::normalize() //normalize the input data
 {
     if(denominator.getSign())
-        numerator = numerator * -1, denominator = denominator * -1;
-    BigInt sumGCD = gcd(numerator.abso(),denominator.abso());
+        numerator = -numerator, denominator = -denominator;
+    BigInt sumGCD = gcd(numerator,denominator);
     numerator = numerator/sumGCD;
     denominator = denominator/sumGCD;
 }
@@ -38,6 +43,11 @@ Rational::Rational()
     : numerator(0),denominator(1)
 {}
 
+// Destructor
+Rational::~Rational()
+{
+    //cout<<"~Rational"<<endl;
+}
 
 BigInt Rational::getNumerator() const
 {
@@ -70,76 +80,17 @@ ostream& operator <<(ostream& outputStream, const Rational& amount)
     return outputStream;
 }
 
-/*
-istream& operator >>(istream& inputStream, Rational& amount)
-{
-    string inputData;
-    inputStream >> inputData;
-    int i;
-    for(i=0, amount.numerator = 0; inputData[i] != '/' && inputData[i] != '\0'; i++)
-        amount.numerator = amount.numerator*10 + inputData[i] - '0';
-    if(inputData[i] == '\0')
-    {
-        return inputStream;
-    }
-    i++;
-    for(amount.denominator = 0; inputData[i] != '\0'; i++)
-        amount.denominator = amount.denominator*10 + inputData[i] - '0';
-    if(amount.denominator <= 0)
-    {
-        cout << "Illegal input \n";
-        exit(1);
-    }
-    return inputStream;
-}
-*/
-
 const BigInt gcd(const BigInt amount1, const BigInt amount2 )
 {
     BigInt temp, lValue(amount1.abso()), rValue(amount2.abso());
-    while (!(lValue == 0))
+    while (lValue > 0)
     {
         temp = lValue;
         lValue = rValue % lValue;
         rValue = temp;
     }
-
-    if(amount1.getSign() != amount2.getSign())
-        return -BigInt(rValue);
-    else
-        return BigInt(rValue);
+    return rValue;
 }
-/**/
-
-const Rational operator +(const Rational& amount1, const Rational& amount2)
-{
-    BigInt sumNumerator = amount1.getNumerator()*amount2.getDenominator()+
-                       amount2.getNumerator()*amount1.getDenominator();
-    BigInt sumDenominator = amount1.getDenominator()*amount2.getDenominator();
-    BigInt sumGCD = gcd(sumNumerator.abso(),sumDenominator);
-    BigInt finalNumerator = sumNumerator/sumGCD;
-    BigInt finalDenominator = sumDenominator/sumGCD;
-
-    return Rational(finalNumerator, finalDenominator);
-}
-
-const Rational operator -(const Rational& amount1, const Rational& amount2)
-{
-    BigInt sumNumerator = amount1.getNumerator()*amount2.getDenominator()-
-                       amount2.getNumerator()*amount1.getDenominator();
-    BigInt sumDenominator = amount1.getDenominator()*amount2.getDenominator();
-    BigInt sumGCD = gcd(sumNumerator.abso(),sumDenominator);
-    BigInt finalNumerator = sumNumerator/sumGCD;
-    BigInt finalDenominator = sumDenominator/sumGCD;
-
-    return Rational(finalNumerator, finalDenominator);
-}
-
-const Rational operator -(const Rational& amount)
-{
-    return Rational(-amount.getNumerator(), amount.getDenominator());
-}
-
 const Rational operator *(const Rational& amount1, const Rational& amount2)
 {
     if(amount1.numerator == 0 || amount2.numerator == 0)
@@ -151,6 +102,33 @@ const Rational operator *(const Rational& amount1, const Rational& amount2)
     BigInt finalDenominator = sumDenominator/sumGCD;
 
     return Rational(finalNumerator, finalDenominator);
+}
+const Rational operator +(const Rational& amount1, const Rational& amount2)
+{
+    BigInt sumNumerator = amount1.getNumerator()*amount2.getDenominator()+amount2.getNumerator()*amount1.getDenominator();
+    BigInt sumDenominator = amount1.getDenominator()*amount2.getDenominator();
+    BigInt sumGCD = gcd(sumNumerator.abso(),sumDenominator);
+    BigInt finalNumerator = sumNumerator/sumGCD;
+    BigInt finalDenominator = sumDenominator/sumGCD;
+
+    return Rational(finalNumerator, finalDenominator);
+}
+
+const Rational operator -(const Rational& amount1, const Rational& amount2)
+{
+    BigInt sumNumerator = amount1.getNumerator()*amount2.getDenominator()-amount2.getNumerator()*amount1.getDenominator();
+    BigInt sumDenominator = amount1.getDenominator()*amount2.getDenominator();
+    BigInt sumGCD = gcd(sumNumerator.abso(),sumDenominator);
+    BigInt finalNumerator = sumNumerator/sumGCD;
+    BigInt finalDenominator = sumDenominator/sumGCD;
+
+
+    return Rational(finalNumerator, finalDenominator);
+}
+
+const Rational operator -(const Rational& amount)
+{
+    return Rational(-amount.getNumerator(), amount.getDenominator());
 }
 
 const Rational operator /(const Rational& amount1, const Rational& amount2)
@@ -207,4 +185,4 @@ BigInt& Rational::operator [](int index)
         exit(1);
     }
 }
-/**/
+}

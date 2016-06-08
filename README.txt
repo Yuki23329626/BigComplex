@@ -11,4 +11,6 @@ or
 Execution environment is “ linux.cs.ccu.edu.tw “
 
 How to use:
-./main
+- ./main
+or
+- ./main > ans.out
