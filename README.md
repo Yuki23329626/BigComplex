@@ -4,14 +4,22 @@
 Imply the class of complex number which can deal with rational and large integer in c++.
 	
 ## How to compile  
-```make (with makefile and the source code files in the same directory)```  
+```bash
+make #(with makefile and the source code files in the same directory)
+```  
 or  
-```g++ main.cpp rational.cpp bigint.cpp complex.cpp -o main```
+```bash
+g++ main.cpp rational.cpp bigint.cpp complex.cpp -o main
+```
 
 ## Execution environment
 Ubuntu 18.04  
 
 ## How to use  
-```./main```  
+```bash
+./main
+```  
 or
-```./main > ans.out```
+```bash
+./main > ans.out
+```
