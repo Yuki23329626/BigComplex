@@ -1,7 +1,8 @@
     
 ## GENERAL USAGE NOTES  
 
-Imply the class of complex number which can deal with rational and large integer in c++.
+Imply the class of complex number  
+which can deal with rational and large integer in C++.
 	
 ## How to compile  
 ```bash
